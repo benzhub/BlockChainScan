@@ -9,18 +9,26 @@ const tronWeb = new TronWeb({
 })
 
 const usdt = async (user, address, searchContract) => {
-    const { abi } = await tronWeb.trx.getContract(searchContract);
-    const contract = tronWeb.contract(abi.entrys, searchContract);
-    const balance = await contract.methods.balanceOf(address).call();
-    if (+balance > 0){
-        return `${user} TRC-20 USDT balance is: ${(+balance / 1000000).toString()}`;
+    try {        
+        const { abi } = await tronWeb.trx.getContract(searchContract);
+        const contract = tronWeb.contract(abi.entrys, searchContract);
+        const balance = await contract.methods.balanceOf(address).call();
+        if (+balance > 0){
+            return `${user} TRC-20 USDT balance is: ${(+balance / 1000000).toString()}`;
+        }
+    } catch (error) {
+        console.log(error)
     }
 }
 
 const app = async (user, address) => {
-    const userBalance = await tronWeb.trx.getBalance(address);
-    if(+userBalance > 0){
-        return `${user} TRX balance is: ${ (+userBalance / 1000000).toString() }`;
+    try {        
+        const userBalance = await tronWeb.trx.getBalance(address);
+        if(+userBalance > 0){
+            return `${user} TRX balance is: ${ (+userBalance / 1000000).toString() }`;
+        }
+    } catch (error) {
+        console.log(error)
     }
 };
 
